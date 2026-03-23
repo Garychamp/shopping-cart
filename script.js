@@ -55,3 +55,31 @@ function updateCart() {
 
 // Initial render
 updateCart();
+
+// Function to add a new item
+function addItem() {
+  const nameInput = document.getElementById("new-name");
+  const priceInput = document.getElementById("new-price");
+  const quantityInput = document.getElementById("new-quantity");
+
+  const name = nameInput.value.trim();
+  const price = parseFloat(priceInput.value);
+  const quantity = parseInt(quantityInput.value);
+
+  if (name && !isNaN(price) && !isNaN(quantity)) {
+    const newId = cart.length ? cart[cart.length - 1].id + 1 : 1;
+    cart.push({ id: newId, name, price, quantity });
+
+    // Clear input fields
+    nameInput.value = "";
+    priceInput.value = "";
+    quantityInput.value = "";
+
+    updateCart();
+  } else {
+    alert("Please enter valid item details.");
+  }
+}
+
+// Add event listener to button
+document.getElementById("add-item-btn").addEventListener("click", addItem);

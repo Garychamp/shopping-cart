@@ -9,7 +9,13 @@
 <body>
     <h1>My Shopping Cart</h1>
 
-  <ul id="cart-list"></ul>
+    <h2>Add New Item</h2>
+    <input type="text" id="new-name" placeholder="Item Name">
+    <input type="number" id="new-price" placeholder="Price" step="0.01">
+    <input type="number" id="new-quantity" placeholder="Quantity" min="1">
+    <button id="add-item-btn">Add Item</button>
+
+    <ul id="cart-list"></ul>
 
   <h2>Total: €<span id="total">0.00</span></h2>
 
