@@ -4,15 +4,24 @@ const cart = [
   { id: 3, name: "Eggs", price: 3.20, quantity: 3 }
 ];
 
+// Show cart items
 function showCart() {
   const cartList = document.getElementById("cart-list");
-  cartList.innerHTML = ""; // Clear the list first
+  cartList.innerHTML = "";
 
   cart.forEach((item) => {
     const li = document.createElement("li");
-    li.textContent = `${item.name} - €${item.price} x ${item.quantity} `;
 
-    // Button to increase quantity
+    // Text container
+    const textDiv = document.createElement("div");
+    textDiv.className = "item-text";
+    textDiv.textContent = `${item.name} - €${item.price} x ${item.quantity}`;
+
+    // Buttons container
+    const btnDiv = document.createElement("div");
+    btnDiv.className = "item-buttons";
+
+    // Increase quantity button
     const addBtn = document.createElement("button");
     addBtn.textContent = "+";
     addBtn.onclick = () => {
@@ -20,7 +29,7 @@ function showCart() {
       updateCart();
     };
 
-    // Button to remove item
+    // Remove button
     const removeBtn = document.createElement("button");
     removeBtn.textContent = "Remove";
     removeBtn.onclick = () => {
@@ -28,19 +37,22 @@ function showCart() {
       updateCart();
     };
 
-    li.appendChild(addBtn);
-    li.appendChild(removeBtn);
+    btnDiv.appendChild(addBtn);
+    btnDiv.appendChild(removeBtn);
+
+    li.appendChild(textDiv);
+    li.appendChild(btnDiv);
+
     cartList.appendChild(li);
   });
 }
 
-// Initial render
-showCart();
-
+// Calculate total
 function getTotal() {
   return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 }
 
+// Remove an item
 function removeItem(itemName) {
   const index = cart.findIndex((item) => item.name === itemName);
   if (index !== -1) {
@@ -48,15 +60,7 @@ function removeItem(itemName) {
   }
 }
 
-function updateCart() {
-  showCart();
-  document.getElementById("total").textContent = getTotal().toFixed(2);
-}
-
-// Initial render
-updateCart();
-
-// Function to add a new item
+// Add a new item
 function addItem() {
   const nameInput = document.getElementById("new-name");
   const priceInput = document.getElementById("new-price");
@@ -70,7 +74,7 @@ function addItem() {
     const newId = cart.length ? cart[cart.length - 1].id + 1 : 1;
     cart.push({ id: newId, name, price, quantity });
 
-    // Clear input fields
+    // Clear inputs
     nameInput.value = "";
     priceInput.value = "";
     quantityInput.value = "";
@@ -81,5 +85,14 @@ function addItem() {
   }
 }
 
-// Add event listener to button
+// Update cart and total
+function updateCart() {
+  showCart();
+  document.getElementById("total").textContent = getTotal().toFixed(2);
+}
+
+// Event listener for add item button
 document.getElementById("add-item-btn").addEventListener("click", addItem);
+
+// Initial render
+updateCart();
